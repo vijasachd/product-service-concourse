@@ -1,0 +1,32 @@
+# Active profiles should be set via environment variable
+spring:
+  profiles: mysql
+  datasource:
+    url: ${cloud.services.mysql.connection.jdbcurl}
+    username: ${cloud.services.mysql.connection.username}
+    password: ${cloud.services.mysql.connection.password}
+    tomcat:
+      test-on-borrow: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL55Dialect
+---
+spring:
+  profiles: h2
+  h2:
+    console:
+      path: /h2
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:test;DB_CLOSE_ON_EXIT=false;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    platform: h2
+    driver-class-name: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
