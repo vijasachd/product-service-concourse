@@ -6,6 +6,15 @@ resources:
   source:
     uri: ((gitRepository))
     branch: lab-finish
+- name: deploy-cf
+  type: cf
+  source:
+    api: https://api.sys.apbg.apcf.io
+    username: ((CFUsername))
+    password: ((CFPassword))
+    organization: ((CFOrg))
+    space: ((CFSpace))
+    skip_cert_check: false
 jobs:
 - name: test
   plan:
@@ -13,3 +22,14 @@ jobs:
     trigger: true
   - task: test
     file: source-code/ci/tasks/test.yml
+- name: build-and-deploy
+  plan:
+  - get: source-code
+    passed: [test]
+    trigger: true
+  - task: build
+    file: source-code/ci/tasks/build.yml
+  - put: deploy-cf
+    params:
+      manifest: build-output/manifest.yml
+      path: build-output/product-service-1.0.0.jar
