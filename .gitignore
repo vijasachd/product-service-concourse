@@ -30,7 +30,3 @@
 /.nb-gradle/
 
 bin/
-manifest.yml
-ci/credentials.yml
-deploy*.sh
-manifest*.yml
