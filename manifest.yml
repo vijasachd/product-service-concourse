@@ -1,0 +1,7 @@
+---
+applications:
+- name: product-service-concourse
+  memory: 768MB
+  random-route: true
+  instances: 1
+  buildpack: java_buildpack_offline
